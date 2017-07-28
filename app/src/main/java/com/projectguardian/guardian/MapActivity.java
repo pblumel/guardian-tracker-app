@@ -10,7 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-public class RangeFinderActivity extends AppCompatActivity
+public class MapActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     // Used to load the 'native-lib' library on application startup.
@@ -21,7 +21,7 @@ public class RangeFinderActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_range_finder);
+        setContentView(R.layout.activity_map);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -51,14 +51,14 @@ public class RangeFinderActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_range_finder) {
-            // Already in RangeFinderActivity
+            // Launch RangeFinderActivity
+            Intent rangefinder = new Intent(MapActivity.this, RangeFinderActivity.class);
+            startActivity(rangefinder);
         } else if (id == R.id.nav_map) {
-            // Launch MapActivity
-            Intent map = new Intent(RangeFinderActivity.this, MapActivity.class);
-            startActivity(map);
+            // Already in MapActivity
         } else if (id == R.id.nav_device_discovery) {
             // Launch DeviceDiscoveryActivity
-            Intent devicediscovery = new Intent(RangeFinderActivity.this, DeviceDiscoveryActivity.class);
+            Intent devicediscovery = new Intent(MapActivity.this, DeviceDiscoveryActivity.class);
             startActivity(devicediscovery);
         }
 

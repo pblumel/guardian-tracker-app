@@ -9,13 +9,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RangeFinderActivity">
+        <activity
+            android:name=".RangeFinderActivity"
+            android:label="@string/nav_range_finder"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MapActivity"
+            android:label="@string/nav_map"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".DeviceDiscoveryActivity"
+            android:label="@string/nav_device_discovery"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

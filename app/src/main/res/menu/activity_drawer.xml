@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/menu_top"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_range_finder"
+            android:icon="@drawable/ic_menu_range_finder"
+            android:title="@string/nav_range_finder" />
+        <item
+            android:id="@+id/nav_map"
+            android:icon="@drawable/ic_menu_map"
+            android:title="@string/nav_map" />
+        <item
+            android:id="@+id/nav_device_discovery"
+            android:icon="@drawable/ic_menu_device_discovery"
+            android:title="@string/nav_device_discovery" />
+    </group>
+</menu>

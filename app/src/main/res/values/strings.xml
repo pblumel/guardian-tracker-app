@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Guardian</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="nav_range_finder">Rangefinder</string>
+    <string name="nav_map">Map</string>
+    <string name="nav_device_discovery">Device Discovery</string>
+
+    <string name="group_name">Project Guardian</string>
+    <string name="support_email">support@projectguardian.com</string>
 </resources>
