@@ -59,8 +59,8 @@ public class MapActivity extends AppCompatActivity
             // Already in MapActivity
         } else if (id == R.id.nav_device_discovery) {
             // Launch DeviceDiscoveryActivity
-            Intent devicediscovery = new Intent(MapActivity.this, DeviceDiscoveryActivity.class);
-            startActivity(devicediscovery);
+            Intent deviceDiscovery = new Intent(MapActivity.this, DeviceDiscoveryActivity.class);
+            startActivity(deviceDiscovery);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
