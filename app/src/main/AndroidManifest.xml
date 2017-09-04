@@ -2,8 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.projectguardian.guardian">
 
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-
     <uses-feature android:name="android.hardware.bluetooth_le" android:required="true"/>
 
     <application
