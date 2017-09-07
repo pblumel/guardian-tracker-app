@@ -11,6 +11,18 @@
     <string name="group_name">Project Guardian</string>
     <string name="support_email">support@projectguardian.com</string>
 
+    <!-- Device Discovery Activity -->
+    <string name="bluetoothDisabled_title">BlueTooth disabled</string>
+    <string name="bluetoothDisabled_message">Since BlueTooth is disabled, this app will not be able to discover beacons.</string>
+    <string name="bluetoothDenied_title">BlueTooth access required</string>
+    <string name="bluetoothDenied_message">Since BlueTooth access has not been granted, this app will not be able to discover beacons.</string>
+    <string name="bluetoothNA_title">BlueTooth required</string>
+    <string name="bluetoothNA_message">This app depends on BlueTooth to function. Your device does not support BlueTooth.</string>
+    <string name="locationPrompt_title">This app needs location access</string>
+    <string name="locationPrompt_message">Please grant location access so this app can detect beacons.</string>
+    <string name="locationDenied_title">Location access required</string>
+    <string name="locationDenied_message">Since location access has not been granted, this app will not be able to discover beacons.</string>
+
     <!-- Rangefinder Activity -->
     <string name="immediate_range">Immediate</string>
     <string name="near_range">Near</string>

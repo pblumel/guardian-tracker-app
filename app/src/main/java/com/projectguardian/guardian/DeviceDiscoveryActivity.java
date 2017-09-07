@@ -1,18 +1,34 @@
 package com.projectguardian.guardian;
 
+import android.Manifest;
+import android.bluetooth.BluetoothAdapter;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 public class DeviceDiscoveryActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    //Bluetooth Request Codes
+    private static final int PERMISSION_REQUEST_BLUETOOTH = 100;
+    private static final int REQUEST_ENABLE_BT = 111;
+
+    // Coarse location permission request code
+    private static final int PERMISSION_REQUEST_COARSE_LOCATION = 101;
+
+    String TAG = "RESULT";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +45,9 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        CheckBTPermissions();
+        CheckLocationPermissions();
     }
 
     @Override
@@ -61,5 +80,181 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    // triggered by startActivityForResult()
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode)
+        {
+            case REQUEST_ENABLE_BT:
+            {
+                if (resultCode == RESULT_OK)
+                {
+                    Log.d(TAG, "-----------------bluetooth enabled");
+                }
+                else
+                {
+                    final AlertDialog.Builder bluetoothDisabled = new AlertDialog.Builder(this);
+                    bluetoothDisabled.setTitle(R.string.bluetoothDisabled_title);
+                    bluetoothDisabled.setMessage(R.string.bluetoothDisabled_message);
+                    bluetoothDisabled.setPositiveButton(android.R.string.ok, null);
+                    bluetoothDisabled.setOnDismissListener(new DialogInterface.OnDismissListener()
+                    {
+                        @Override
+                        public void onDismiss(DialogInterface dialog)
+                        {
+                            // BlueTooth disabled, close app
+                            Log.d(TAG, "-----------------bluetooth disabled");
+                            finish();
+                        }
+                    });
+                    bluetoothDisabled.show();
+                }
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode)
+        {
+            case PERMISSION_REQUEST_BLUETOOTH:
+            {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                {
+                    Log.d(TAG, "-------------------bluetooth permission granted");
+                }
+                else
+                {
+                    final AlertDialog.Builder bluetoothDenied = new AlertDialog.Builder(this);
+                    bluetoothDenied.setTitle(R.string.bluetoothDenied_title);
+                    bluetoothDenied.setMessage(R.string.bluetoothDenied_message);
+                    bluetoothDenied.setPositiveButton(android.R.string.ok, null);
+                    bluetoothDenied.setOnDismissListener(new DialogInterface.OnDismissListener()
+                    {
+                        @Override
+                        public void onDismiss(DialogInterface dialog)
+                        {
+                            // BlueTooth permission denied, close app
+                            Log.d(TAG, "-------------------bluetooth permission denied");
+                            finish();
+                        }
+                    });
+                    bluetoothDenied.show();
+                }
+                break;
+            }
+            case PERMISSION_REQUEST_COARSE_LOCATION:
+            {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                {
+                    Log.d(TAG, "-----------------------coarse location permission granted");
+                }
+                else
+                {
+                    final AlertDialog.Builder locationDenied = new AlertDialog.Builder(this);
+                    locationDenied.setTitle(R.string.locationDenied_title);
+                    locationDenied.setMessage(R.string.locationDenied_message);
+                    locationDenied.setPositiveButton(android.R.string.ok, null);
+                    locationDenied.setOnDismissListener(new DialogInterface.OnDismissListener()
+                    {
+                        @Override
+                        public void onDismiss(DialogInterface dialog)
+                        {
+                            // Location permission denied, close app
+                            Log.d(TAG, "-----------------------coarse location permission denied");
+                            finish();
+                        }
+                    });
+                    locationDenied.show();
+                }
+                break;
+            }
+        }
+    }
+
+    public void CheckBluetoothCompatibility() {
+        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (mBluetoothAdapter == null)  // Device not supported
+        {
+            final AlertDialog.Builder bluetoothNA = new AlertDialog.Builder(this);
+            bluetoothNA.setTitle(R.string.bluetoothNA_title);
+            bluetoothNA.setMessage(R.string.bluetoothNA_message);
+            bluetoothNA.setPositiveButton(android.R.string.ok, null);
+            bluetoothNA.setOnDismissListener(new DialogInterface.OnDismissListener()
+            {
+                @Override
+                public void onDismiss(DialogInterface dialog)
+                {
+                    // BlueTooth not supported, close app
+                    Log.d(TAG, "----------------------device doesn't support bluetooth");
+                    finish();
+                }
+            });
+            bluetoothNA.show();
+        }
+        else    // Device is supported, ensure BT is enabled
+        {
+            Log.d(TAG, "----------------------device supports bluetooth");
+            if (!mBluetoothAdapter.isEnabled())
+            {
+                startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), REQUEST_ENABLE_BT);
+            }
+        }
+    }
+
+    public void CheckBTPermissions() {
+        if (checkPermissions(Manifest.permission.BLUETOOTH) && checkPermissions(Manifest.permission.BLUETOOTH_ADMIN)) {
+            //All Permissions Granted
+            Log.i(TAG, "-------------------------User Granted BlueTooth Permissions");
+            CheckBluetoothCompatibility();
+        } else {
+            //Some Permissions were Denied, Request Permissions from User
+            Log.e(TAG, "-------------------------Asking for BlueTooth Permissions");
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.BLUETOOTH,
+                            Manifest.permission.BLUETOOTH_ADMIN
+                    }, PERMISSION_REQUEST_BLUETOOTH);
+        }
+    }
+
+    public boolean checkPermissions(String per) {
+        boolean result = true;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            int check = checkSelfPermission(per);
+            result = (check == PackageManager.PERMISSION_GRANTED);
+            Log.i(TAG, "----------------------Checking RunTime Permissions Since the Device VERSION_CODE >= M :" + result);
+        } else {
+            Log.i(TAG, "----------------------No Need of RunTime Permissions for Devices with VERSION_CODE < M");
+        }
+        return result;
+    }
+
+    public void CheckLocationPermissions()
+    {
+        // If location permissions not granted
+        if (this.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
+            final AlertDialog.Builder locationPrompt = new AlertDialog.Builder(this);
+            locationPrompt.setTitle(R.string.locationPrompt_title);
+            locationPrompt.setMessage(R.string.locationPrompt_message);
+            locationPrompt.setPositiveButton(android.R.string.ok, null);
+            locationPrompt.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_COARSE_LOCATION);
+                }
+            });
+            locationPrompt.show(); //show the dialog box
+        }
+        else    // Location granted
+        {
+            Log.d(TAG, "coarse location permission granted");
+        }
     }
 }
