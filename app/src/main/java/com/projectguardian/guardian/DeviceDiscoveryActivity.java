@@ -17,9 +17,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import org.altbeacon.beacon.Beacon;
+import org.altbeacon.beacon.BeaconConsumer;
+import org.altbeacon.beacon.BeaconManager;
+import org.altbeacon.beacon.BeaconParser;
+import org.altbeacon.beacon.RangeNotifier;
+import org.altbeacon.beacon.Region;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class DeviceDiscoveryActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, BeaconConsumer {
 
     //Bluetooth Request Codes
     private static final int PERMISSION_REQUEST_BLUETOOTH = 100;
@@ -28,7 +40,16 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
     // Coarse location permission request code
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 101;
 
+    public static final String ALTBEACON2 = "m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25";
+
     String TAG = "RESULT";
+
+    public BeaconManager beaconManager;
+
+    public int numTrackedObj = 0;
+    public ArrayList<String> names = new ArrayList<>(); //a vector of type String
+    public ArrayAdapter<String> deviceNames;
+    public ListView deviceList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +69,36 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
 
         CheckBTPermissions();
         CheckLocationPermissions();
+
+        deviceNames = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, names);
+        deviceList = (ListView) findViewById(R.id.deviceList);
+        deviceList.setAdapter(deviceNames);
+        names.add("Hello");
+
+        beaconManager = BeaconManager.getInstanceForApplication(this);
+        beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(ALTBEACON2));
+
+        // Bind service to this thread
+        beaconManager.bind(this);
+
+        //SET THE SCAN APP SCAN PERIOD
+        beaconManager.setForegroundScanPeriod(5000l);
+        beaconManager.setBackgroundBetweenScanPeriod(1100l);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
@@ -68,14 +119,17 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
         if (id == R.id.nav_range_finder) {
             // Launch RangeFinderActivity
             Intent rangefinder = new Intent(DeviceDiscoveryActivity.this, RangeFinderActivity.class);
+            rangefinder.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(rangefinder);
         } else if (id == R.id.nav_map) {
             // Launch MapActivity
             Intent map = new Intent(DeviceDiscoveryActivity.this, MapActivity.class);
+            map.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(map);
         } else if (id == R.id.nav_device_discovery) {
-            // Already in RangeFinderActivity
+            // Already in DeviceDiscoveryActivity
         }
+        beaconManager.removeAllRangeNotifiers();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -256,5 +310,37 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
         {
             Log.d(TAG, "coarse location permission granted");
         }
+    }
+
+    @Override
+    public void onBeaconServiceConnect() {
+        beaconManager.addRangeNotifier(new RangeNotifier() {
+            @Override
+            public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
+                numTrackedObj = beacons.size(); //update the number of beacons we are tracking
+                Log.i(TAG,"----------" + numTrackedObj + " beacon(s) found");
+                if (numTrackedObj > 0) {
+                    // Add Beacon to list
+                    String deviceInfo = beacons.iterator().next().getBluetoothName() + " " + beacons.iterator().next().getBluetoothAddress();
+                    if (!names.contains(deviceInfo))
+                    {
+                        names.add(deviceInfo);
+                        updateUI();
+                    }
+                }
+            }
+        });
+    }
+
+    public void updateUI()
+    {
+        runOnUiThread(new Runnable()
+        {
+            public void run()
+            {
+                // Update UI with list
+                deviceNames.notifyDataSetChanged();
+            }
+        });
     }
 }

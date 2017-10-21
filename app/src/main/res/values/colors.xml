@@ -7,4 +7,6 @@
     <!-- Rangefinder Activity -->
 
     <color name="node_color">#FF616161</color>
+    <color name="indicator_color">#FFFF8F00</color>
+    <color name="indicator_color_transparent">#00FF8F00</color>
 </resources>
