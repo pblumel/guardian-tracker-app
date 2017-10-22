@@ -32,6 +32,8 @@ import java.util.Collections;
 public class RangeFinderActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, BeaconConsumer {
 
+    String TAG = "RangeFinder";
+
     private static final int BINSIZE = 8;
     private static final String TESTBEACON = "88:6B:0F:2E:2F:20"; //test beacons MAC
     private BeaconManager beaconManager2;

@@ -24,14 +24,14 @@ import android.widget.ListView;
 public class DeviceDiscoveryActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    String TAG = "DeviceDiscovery";
+
     //Bluetooth Request Codes
     private static final int PERMISSION_REQUEST_BLUETOOTH = 100;
     private static final int REQUEST_ENABLE_BT = 111;
 
     // Coarse location permission request code
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 101;
-
-    String TAG = "RESULT";
 
     private int mInterval = 5000;   // 5000 ms
     private Handler mHandler;
