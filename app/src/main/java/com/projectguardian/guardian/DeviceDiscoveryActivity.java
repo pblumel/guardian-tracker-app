@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -20,18 +21,8 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import org.altbeacon.beacon.Beacon;
-import org.altbeacon.beacon.BeaconConsumer;
-import org.altbeacon.beacon.BeaconManager;
-import org.altbeacon.beacon.BeaconParser;
-import org.altbeacon.beacon.RangeNotifier;
-import org.altbeacon.beacon.Region;
-
-import java.util.ArrayList;
-import java.util.Collection;
-
 public class DeviceDiscoveryActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, BeaconConsumer {
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     //Bluetooth Request Codes
     private static final int PERMISSION_REQUEST_BLUETOOTH = 100;
@@ -40,14 +31,11 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
     // Coarse location permission request code
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 101;
 
-    public static final String ALTBEACON2 = "m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25";
-
     String TAG = "RESULT";
 
-    public BeaconManager beaconManager;
+    private int mInterval = 5000;   // 5000 ms
+    private Handler mHandler;
 
-    public int numTrackedObj = 0;
-    public ArrayList<String> names = new ArrayList<>(); //a vector of type String
     public ArrayAdapter<String> deviceNames;
     public ListView deviceList;
 
@@ -70,20 +58,12 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
         CheckBTPermissions();
         CheckLocationPermissions();
 
-        deviceNames = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, names);
+        deviceNames = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, ((BeaconInterface)getApplicationContext()).names);
         deviceList = (ListView) findViewById(R.id.deviceList);
         deviceList.setAdapter(deviceNames);
-        names.add("Hello");
 
-        beaconManager = BeaconManager.getInstanceForApplication(this);
-        beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(ALTBEACON2));
-
-        // Bind service to this thread
-        beaconManager.bind(this);
-
-        //SET THE SCAN APP SCAN PERIOD
-        beaconManager.setForegroundScanPeriod(5000l);
-        beaconManager.setBackgroundBetweenScanPeriod(1100l);
+        mHandler = new Handler();
+        start_UI_updater();
     }
 
     @Override
@@ -99,6 +79,7 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        stop_UI_updater();
     }
 
     @Override
@@ -129,7 +110,6 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
         } else if (id == R.id.nav_device_discovery) {
             // Already in DeviceDiscoveryActivity
         }
-        beaconManager.removeAllRangeNotifiers();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -312,24 +292,24 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public void onBeaconServiceConnect() {
-        beaconManager.addRangeNotifier(new RangeNotifier() {
-            @Override
-            public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
-                numTrackedObj = beacons.size(); //update the number of beacons we are tracking
-                Log.i(TAG,"----------" + numTrackedObj + " beacon(s) found");
-                if (numTrackedObj > 0) {
-                    // Add Beacon to list
-                    String deviceInfo = beacons.iterator().next().getBluetoothName() + " " + beacons.iterator().next().getBluetoothAddress();
-                    if (!names.contains(deviceInfo))
-                    {
-                        names.add(deviceInfo);
-                        updateUI();
-                    }
-                }
+    Runnable mStatusChecker = new Runnable() {
+        @Override
+        public void run() {
+            try {
+                Log.i(TAG, "----------" + "Updating UI");
+                updateUI();
+            } finally {
+                mHandler.postDelayed(mStatusChecker, mInterval);
             }
-        });
+        }
+    };
+
+    void start_UI_updater() {
+        mStatusChecker.run();
+    }
+
+    void stop_UI_updater() {
+        mHandler.removeCallbacks(mStatusChecker);
     }
 
     public void updateUI()
