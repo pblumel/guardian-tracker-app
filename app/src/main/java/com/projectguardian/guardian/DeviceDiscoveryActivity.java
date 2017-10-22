@@ -296,8 +296,9 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
         @Override
         public void run() {
             try {
+                // Update UI with list
+                deviceNames.notifyDataSetChanged();
                 Log.i(TAG, "----------" + "Updating UI");
-                updateUI();
             } finally {
                 mHandler.postDelayed(mStatusChecker, mInterval);
             }
@@ -310,17 +311,5 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
 
     void stop_UI_updater() {
         mHandler.removeCallbacks(mStatusChecker);
-    }
-
-    public void updateUI()
-    {
-        runOnUiThread(new Runnable()
-        {
-            public void run()
-            {
-                // Update UI with list
-                deviceNames.notifyDataSetChanged();
-            }
-        });
     }
 }
