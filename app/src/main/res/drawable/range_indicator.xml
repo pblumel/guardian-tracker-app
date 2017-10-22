@@ -7,6 +7,6 @@
         android:color="@color/indicator_color" />
 
     <size
-        android:width="30dp"
-        android:height="30dp" />
+        android:width="@dimen/range_indicator_diameter"
+        android:height="@dimen/range_indicator_diameter" />
 </shape>

@@ -11,4 +11,5 @@
     <dimen name="range_label">20sp</dimen>
     <dimen name="range_label_Lmargin">10dp</dimen>
     <dimen name="node_diameter">20dp</dimen>
+    <dimen name="range_indicator_diameter">30dp</dimen>
 </resources>

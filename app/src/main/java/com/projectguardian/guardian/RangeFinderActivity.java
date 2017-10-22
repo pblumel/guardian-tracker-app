@@ -334,16 +334,12 @@ public class RangeFinderActivity extends AppCompatActivity
     public void moveIndicatorGlow(int node)
     {
         OrangeIndicator.animate()
-                .x((NODES[node-1].getX()) - 15f)
-                .y((NODES[node-1].getY()) - 15f)
+                .x(OrangeIndicator.getLeft())
+                .y(NODES[node-1].getTop()
+                        - ((getResources().getDimension(R.dimen.range_indicator_diameter) - getResources().getDimension(R.dimen.node_diameter))/2)
+                        * ((NODES[node-1].getBottom() - NODES[node-1].getTop())/getResources().getDimension(R.dimen.node_diameter)))
                 .setDuration(AnimDur)
                 .start();
-/*
-        OrangeGlow.animate()
-            .x((NODES[node-1].getX()) - 60f)
-            .y((NODES[node-1].getY()) - 50f)
-            .setDuration(AnimDur)
-            .start();*/
     }
 
     double getMean(ArrayList<Double> v)
