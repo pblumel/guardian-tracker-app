@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.res.Configuration;
 import android.util.Log;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -15,7 +14,7 @@ import org.altbeacon.beacon.BeaconParser;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 
-public class BeaconInterface extends Application implements BeaconConsumer, Serializable {
+public class BeaconInterface extends Application implements BeaconConsumer {
     String TAG = "BeaconInterface";
     //Beacon Types
     // public static final String BEACON_FORMAT = "m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25";          // ALTBEACON
