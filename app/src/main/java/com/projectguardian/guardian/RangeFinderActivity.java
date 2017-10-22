@@ -100,12 +100,10 @@ public class RangeFinderActivity extends AppCompatActivity
         } else if (id == R.id.nav_map) {
             // Launch MapActivity
             Intent map = new Intent(RangeFinderActivity.this, MapActivity.class);
-            map.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(map);
         } else if (id == R.id.nav_device_discovery) {
             // Launch DeviceDiscoveryActivity
             Intent deviceDiscovery = new Intent(RangeFinderActivity.this, DeviceDiscoveryActivity.class);
-            deviceDiscovery.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(deviceDiscovery);
         }
 
