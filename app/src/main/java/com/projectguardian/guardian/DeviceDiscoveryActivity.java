@@ -18,11 +18,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class DeviceDiscoveryActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener {
 
     String TAG = "DeviceDiscovery";
 
@@ -58,9 +60,10 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
         CheckBTPermissions();
         CheckLocationPermissions();
 
-        deviceNames = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, ((BeaconInterface)getApplicationContext()).names);
+        deviceNames = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, ((BeaconInterface)getApplicationContext()).deviceList);
         deviceList = (ListView) findViewById(R.id.deviceList);
         deviceList.setAdapter(deviceNames);
+        deviceList.setOnItemClickListener(this);
 
         mHandler = new Handler();
         start_UI_updater();
@@ -290,6 +293,11 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
         {
             Log.d(TAG, "coarse location permission granted");
         }
+    }
+
+    public void onItemClick(AdapterView<?> l, View v, int position, long id) {
+        Log.i(TAG, "Beacon " + ((BeaconInterface)getApplicationContext()).deviceList.get((int) id) + " selected");
+        ((BeaconInterface)getApplicationContext()).selectedBeacon = ((BeaconInterface)getApplicationContext()).deviceMAC.get((int) id);
     }
 
     Runnable mStatusChecker = new Runnable() {

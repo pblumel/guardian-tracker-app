@@ -26,7 +26,7 @@ public class BeaconInterface extends Application implements BeaconConsumer {
     // public static final String BEACON_FORMAT = "s:0-1=feaa,m:2-2=10,p:3-3:-41,i:4-20v";                      // EDDYSTONE_URL
     // public static final String BEACON_FORMAT = "m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24";                  // IBEACON
 
-    private static final String TESTBEACON = "88:6B:0F:2E:2F:20"; // RadBeacon USB MAC
+    public String selectedBeacon = "0";
 
     public BeaconManager beaconManager;
 
@@ -56,7 +56,8 @@ public class BeaconInterface extends Application implements BeaconConsumer {
     double InnerFence_3;
     double OutlierCount;
 
-    public ArrayList<String> names = new ArrayList<>(); //a vector of type String
+    public ArrayList<String> deviceMAC = new ArrayList<>();     // A vector of available beacon MAC addresses
+    public ArrayList<String> deviceList = new ArrayList<>();    // A vector of available beacon details for display
     ArrayList<Double> RSSIContainer = new ArrayList<>(); //a vector of type double
     public ArrayList<Double> RSSIContainer_copy = new ArrayList<>(); //copy of RSSIContainer used for data processing
 
@@ -88,19 +89,19 @@ public class BeaconInterface extends Application implements BeaconConsumer {
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
                 numTrackedObj = beacons.size(); //update the number of beacons we are tracking
-                Log.i(TAG,"----------" + numTrackedObj + " beacon(s) found");
                 if (numTrackedObj > 0) {
                     /* Update DeviceDiscovery data */
-                    String deviceInfo = beacons.iterator().next().getBluetoothName() + " " + beacons.iterator().next().getBluetoothAddress();
-                    if (!names.contains(deviceInfo))
+                    if (!deviceMAC.contains(beacons.iterator().next().getBluetoothAddress()))
                     {
+                        String deviceInfo = beacons.iterator().next().getBluetoothName() + " " + beacons.iterator().next().getBluetoothAddress();
                         Log.i(TAG,"----------" + deviceInfo + " found");
-                        names.add(deviceInfo);
+                        deviceList.add(deviceInfo);
+                        deviceMAC.add(beacons.iterator().next().getBluetoothAddress());
                     }
 
                     /* Update RangeFinder data */
                     //If are receiving packets from the test beacon
-                    if (beacons.iterator().next().getBluetoothAddress().equals(TESTBEACON)) {
+                    if (beacons.iterator().next().getBluetoothAddress().equals(selectedBeacon)) {
                         //Fill our ArrayList with (8 - test points)
                         if (RSSIContainer.size() == BINSIZE) {
                             //apply rolling window of 8 data points (know oldest data point off and add newest data point
