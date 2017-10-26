@@ -118,8 +118,6 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
             Intent map = new Intent(DeviceDiscoveryActivity.this, MapActivity.class);
             stop_UI_updater();
             startActivity(map);
-        } else if (id == R.id.nav_device_discovery) {
-            // Already in DeviceDiscoveryActivity
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

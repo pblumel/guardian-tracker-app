@@ -52,8 +52,6 @@ public class MapActivity extends AppCompatActivity
             // Launch RangeFinderActivity
             Intent rangefinder = new Intent(MapActivity.this, RangeFinderActivity.class);
             startActivity(rangefinder);
-        } else if (id == R.id.nav_map) {
-            // Already in MapActivity
         } else if (id == R.id.nav_device_discovery) {
             // Launch DeviceDiscoveryActivity
             Intent deviceDiscovery = new Intent(MapActivity.this, DeviceDiscoveryActivity.class);

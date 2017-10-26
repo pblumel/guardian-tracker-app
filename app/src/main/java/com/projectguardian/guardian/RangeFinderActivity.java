@@ -95,9 +95,7 @@ public class RangeFinderActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_range_finder) {
-            // Already in RangeFinderActivity
-        } else if (id == R.id.nav_map) {
+        if (id == R.id.nav_map) {
             // Launch MapActivity
             Intent map = new Intent(RangeFinderActivity.this, MapActivity.class);
             stop_UI_updater();
