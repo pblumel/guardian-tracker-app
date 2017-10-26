@@ -304,6 +304,10 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
     public void onItemClick(AdapterView<?> l, View v, int position, long id) {
         Log.i(TAG, "Beacon " + ((BeaconInterface)getApplicationContext()).deviceList.get((int) id) + " selected");
         ((BeaconInterface)getApplicationContext()).selectedBeacon = ((BeaconInterface)getApplicationContext()).deviceMAC.get((int) id);
+        // Launch RangeFinderActivity
+        Intent rangefinder = new Intent(DeviceDiscoveryActivity.this, RangeFinderActivity.class);
+        stop_UI_updater();
+        startActivity(rangefinder);
     }
 
     Runnable mStatusChecker = new Runnable() {
