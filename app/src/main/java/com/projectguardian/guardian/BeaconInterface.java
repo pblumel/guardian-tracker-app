@@ -144,6 +144,11 @@ public class BeaconInterface extends Application implements BeaconConsumer {
         }
     }
 
+    public void resetFilter() {
+        RSSIContainer.clear();
+        RSSIContainer_copy.clear();
+    }
+
     public double getMean(ArrayList<Double> v)
     {
         double mean = 0;
