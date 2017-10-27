@@ -19,46 +19,46 @@ import org.altbeacon.beacon.Region;
 public class BeaconInterface extends Application implements BeaconConsumer {
     String TAG = "BeaconInterface";
     //Beacon Types
-    // public static final String BEACON_FORMAT = "m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25";          // ALTBEACON
-    public static final String BEACON_FORMAT = "m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25";             // ALTBEACON2
-    // public static final String BEACON_FORMAT =  "x,s:0-1=feaa,m:2-2=20,d:3-3,d:4-5,d:6-7,d:8-11,d:12-15";    // EDDYSTONE_TLM
-    // public static final String BEACON_FORMAT = "s:0-1=feaa,m:2-2=00,p:3-3:-41,i:4-13,i:14-19";               // EDDYSTONE_UID
-    // public static final String BEACON_FORMAT = "s:0-1=feaa,m:2-2=10,p:3-3:-41,i:4-20v";                      // EDDYSTONE_URL
-    // public static final String BEACON_FORMAT = "m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24";                  // IBEACON
+    // private static final String BEACON_FORMAT = "m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25";          // ALTBEACON
+    private static final String BEACON_FORMAT = "m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25";             // ALTBEACON2
+    // private static final String BEACON_FORMAT =  "x,s:0-1=feaa,m:2-2=20,d:3-3,d:4-5,d:6-7,d:8-11,d:12-15";    // EDDYSTONE_TLM
+    // private static final String BEACON_FORMAT = "s:0-1=feaa,m:2-2=00,p:3-3:-41,i:4-13,i:14-19";               // EDDYSTONE_UID
+    // private static final String BEACON_FORMAT = "s:0-1=feaa,m:2-2=10,p:3-3:-41,i:4-20v";                      // EDDYSTONE_URL
+    // private static final String BEACON_FORMAT = "m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24";                  // IBEACON
 
     public String selectedBeacon = "0";
 
-    public BeaconManager beaconManager;
+    private BeaconManager beaconManager;
 
     public int numTrackedObj = 0;
     private static final int BINSIZE = 8;
 
     //Data Processing Variables
     //initial values for the kalman filter
-    double x_est_last;
-    double P_last;
+    private double x_est_last;
+    private double P_last;
 
     //simulated noise in the system
     //initial covariances of state noise, measurement noise
-    double Q = 0.001; // noise w's covariance - process noise (determined experimentally) (0.022)
-    double V = 0.8; //noise of v's covariance - measurement noise (determined experimentally) (0.617)
+    private double Q = 0.001; // noise w's covariance - process noise (determined experimentally) (0.022)
+    private double V = 0.8; //noise of v's covariance - measurement noise (determined experimentally) (0.617)
 
     //Kalman Filter Values
-    double K; //Kalman Gain
-    double P; //Prediction error covariance
-    double P_temp;
-    double x_temp_est; // holds the temporary estimated value while doing calculations
-    double x_est; //our kalman estimate
-    double z_measured; //the 'noisy' value we measured
-    double z_real; //the ideal value we wish to measure (THIS IS TRUELY UNKNOWN) calculated as the mean of our data set
+    private double K; //Kalman Gain
+    private double P; //Prediction error covariance
+    private double P_temp;
+    private double x_temp_est; // holds the temporary estimated value while doing calculations
+    private double x_est; //our kalman estimate
+    private double z_measured; //the 'noisy' value we measured
+    private double z_real; //the ideal value we wish to measure (THIS IS TRUELY UNKNOWN) calculated as the mean of our data set
 
-    double InnerFence_1;
-    double InnerFence_3;
-    double OutlierCount;
+    private double InnerFence_1;
+    private double InnerFence_3;
+    private double OutlierCount;
 
     public ArrayList<String> deviceMAC = new ArrayList<>();     // A vector of available beacon MAC addresses
     public ArrayList<String> deviceList = new ArrayList<>();    // A vector of available beacon details for display
-    ArrayList<Double> RSSIContainer = new ArrayList<>(); //a vector of type double
+    private ArrayList<Double> RSSIContainer = new ArrayList<>(); //a vector of type double
     public ArrayList<Double> RSSIContainer_copy = new ArrayList<>(); //copy of RSSIContainer used for data processing
 
     @Override
@@ -156,7 +156,7 @@ public class BeaconInterface extends Application implements BeaconConsumer {
         return mean;
     }
 
-    boolean isOutlier(double value)
+    private boolean isOutlier(double value)
     {
         if (InnerFence_3 > value && value > InnerFence_1) //if the value is between the inner fences
             return false;
@@ -165,7 +165,7 @@ public class BeaconInterface extends Application implements BeaconConsumer {
         return true;
     }
 
-    void removeOutliers( ArrayList<Double> v)
+    private void removeOutliers( ArrayList<Double> v)
     {
         //make a temp
         ArrayList<Double> temp = v;
@@ -197,7 +197,7 @@ public class BeaconInterface extends Application implements BeaconConsumer {
         }
     }
 
-    void KFilter(ArrayList<Double> v)
+    private void KFilter(ArrayList<Double> v)
     {
         z_real = getMean(v); //returns the mean of our data set as the "ideal" value we wish to measure
         x_est_last = z_real; // Initializes a piece of data for our Kalman Filter
