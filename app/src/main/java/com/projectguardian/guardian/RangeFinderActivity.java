@@ -98,12 +98,10 @@ public class RangeFinderActivity extends AppCompatActivity
         if (id == R.id.nav_map) {
             // Launch MapActivity
             Intent map = new Intent(RangeFinderActivity.this, MapActivity.class);
-            stop_UI_updater();
             startActivity(map);
         } else if (id == R.id.nav_device_discovery) {
             // Launch DeviceDiscoveryActivity
             Intent deviceDiscovery = new Intent(RangeFinderActivity.this, DeviceDiscoveryActivity.class);
-            stop_UI_updater();
             startActivity(deviceDiscovery);
         }
 
@@ -115,11 +113,13 @@ public class RangeFinderActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
+        stop_UI_updater();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        start_UI_updater();
     }
 
     @Override

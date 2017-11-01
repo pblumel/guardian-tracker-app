@@ -72,11 +72,13 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
+        stop_UI_updater();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        start_UI_updater();
     }
 
     @Override
@@ -110,13 +112,11 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
             } else {
                 // Launch RangeFinderActivity
                 Intent rangefinder = new Intent(DeviceDiscoveryActivity.this, RangeFinderActivity.class);
-                stop_UI_updater();
                 startActivity(rangefinder);
             }
         } else if (id == R.id.nav_map) {
             // Launch MapActivity
             Intent map = new Intent(DeviceDiscoveryActivity.this, MapActivity.class);
-            stop_UI_updater();
             startActivity(map);
         }
 
@@ -303,7 +303,6 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
 
     public void onItemClick(AdapterView<?> l, View v, int position, long id) {
         Log.i(TAG, "Beacon " + ((BeaconInterface)getApplicationContext()).deviceList.get((int) id) + " selected");
-        stop_UI_updater();
         if (!(((BeaconInterface)getApplicationContext()).selectedBeacon.equals(((BeaconInterface)getApplicationContext()).deviceMAC.get((int) id))))
             ((BeaconInterface)getApplicationContext()).resetFilter();   // Reset Kalman filter if new device selected
         ((BeaconInterface)getApplicationContext()).selectedBeacon = ((BeaconInterface)getApplicationContext()).deviceMAC.get((int) id);
