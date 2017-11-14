@@ -133,7 +133,7 @@ public class RangeFinderActivity extends AppCompatActivity
         public void run() {
             try {
                 updateUi();
-                Log.i(TAG, "----------" + "Updating UI");
+                //Log.i(TAG, "----------" + "Updating UI");
             } finally {
                 mHandler.postDelayed(mStatusChecker, mInterval);
             }

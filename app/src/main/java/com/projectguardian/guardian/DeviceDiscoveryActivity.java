@@ -317,7 +317,7 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
             try {
                 // Update UI with list
                 deviceNames.notifyDataSetChanged();
-                Log.i(TAG, "----------" + "Updating UI");
+                //Log.i(TAG, "----------" + "Updating UI");
             } finally {
                 mHandler.postDelayed(mStatusChecker, mInterval);
             }
