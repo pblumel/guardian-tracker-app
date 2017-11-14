@@ -34,7 +34,7 @@ public class BeaconInterface extends Application implements BeaconConsumer {
     private BeaconManager beaconManager;
 
     public int numTrackedObj = 0;
-    private static final int BINSIZE = 8;
+    private int BINSIZE = 30;
 
     //Data Processing Variables
     //initial values for the kalman filter
@@ -115,11 +115,11 @@ public class BeaconInterface extends Application implements BeaconConsumer {
                             RSSIContainer.add((double) beacons.iterator().next().getRssi()); //appends the latest data point to the end
                             RSSIContainer.remove(0); //removes the oldest data point
                             updateRange();
-                        } else //continue filling up our container till 8 data points
+                        } else //continue filling up our container till full
                         {
                             RSSIContainer.add((double) beacons.iterator().next().getRssi()); //appends the latest data point to the end
 
-                            if (RSSIContainer.size() == BINSIZE) {
+                            if (RSSIContainer.size() > 1) {
                                 //update proximity map for the first time
                                 updateRange();
                             }
