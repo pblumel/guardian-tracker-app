@@ -24,7 +24,7 @@ public class RangeFinderActivity extends AppCompatActivity
 
     String TAG = "RangeFinder";
 
-    private int mInterval = 5000;   // 5000 ms
+    private int mInterval = 1000;   // 1000 ms
     private Handler mHandler;
 
     int counter = 0; //this is a test counter

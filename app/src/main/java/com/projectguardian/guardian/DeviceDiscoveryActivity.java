@@ -35,7 +35,7 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
     // Coarse location permission request code
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 101;
 
-    private int mInterval = 5000;   // 5000 ms
+    private int mInterval = 1000;   // 1000 ms
     private Handler mHandler;
 
     public ArrayAdapter<String> deviceNames;
