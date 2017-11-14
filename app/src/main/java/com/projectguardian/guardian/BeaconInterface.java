@@ -86,6 +86,9 @@ public class BeaconInterface extends Application implements BeaconConsumer {
             beaconManager.updateScanPeriods();
         } catch (RemoteException e) { }
 
+        try {
+            beaconManager.startRangingBeaconsInRegion(new Region("myMonitoringUniqueId", null, null, null));
+        } catch (RemoteException e) { }
 
         Log.i(TAG,"---------- running class onCreate");
     }
@@ -134,9 +137,7 @@ public class BeaconInterface extends Application implements BeaconConsumer {
             }
         });
 
-        try {
-            beaconManager.startRangingBeaconsInRegion(new Region("myMonitoringUniqueId", null, null, null));
-        } catch (RemoteException e) { }
+
     }
 
     private void updateRange() {
