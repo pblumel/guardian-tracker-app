@@ -172,7 +172,7 @@ public class RangeFinderActivity extends AppCompatActivity
 
                     //output nothing
                     //OrangeGlow.setVisibility(View.INVISIBLE);
-                    OrangeIndicator.setVisibility(View.INVISIBLE);
+                    //OrangeIndicator.setVisibility(View.INVISIBLE);  // TODO Do something else, maybe change colors or move to node 7
 
                     //Display progress bar indicating that we are searching for beacons
                     //loadRegion.setVisibility(View.VISIBLE);
