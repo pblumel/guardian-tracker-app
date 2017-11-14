@@ -43,12 +43,13 @@ public class RangeFinderActivity extends AppCompatActivity
     //char numTrackedObj = 0;
 
     //Declare Zones       // THESE COMMENTS ARE TAKEN AS ABSOLUTE VALUE
-    double[] ZONES = {-60.0,  // if less than, then tracked object is within 2 feet
-            -68.0,  // if greater than zone 1 but less than this zone, then tracked object is within 5 feet
-            -77.0,  // if greater than zone 2 but less than this zone, then tracked object is within 10 feet
-            -87.0,  // if greater than zone 3 but less than this zone, then tracked object is within 20 feet
-            -95.0   // if greater than zone 4 but less than this zone, then tracked object is within 30 feet
-                };  // if greater than zone 4 then tracked object is 40+ feet
+    double[] ZONES = {
+                        -57.0,  // if less than, then tracked object is within 2 feet
+                        -61.0,  // if less than, then tracked object is within 5 feet
+                        -67.0,  // if less than, then tracked object is within 10 feet
+                        -75.0,  // if less than, then tracked object is within 25 feet
+                        -79.0   // if less than, then tracked object is within 45 feet
+                     };  // if greater than zone 4 then tracked object is 45+ feet
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -205,27 +206,27 @@ public class RangeFinderActivity extends AppCompatActivity
                     if (NewPosition >= ZONES[0]) //if we are really close!
                     {
                         moveIndicatorGlow(1);
-                        OutputProximity.setText("2 feet");
+                        OutputProximity.setText("2 feet" + "\n" + (int)NewPosition + " dBm");  // TODO use strings.xml
                     }
                     else if (NewPosition >= ZONES[1] && NewPosition < ZONES[0])
                     {
                         moveIndicatorGlow(2);
-                        OutputProximity.setText("5 feet");
+                        OutputProximity.setText("5 feet" + "\n" + (int)NewPosition + " dBm");
                     }
                     else if (NewPosition >= ZONES[2] && NewPosition < ZONES[1])
                     {
                         moveIndicatorGlow(3);
-                        OutputProximity.setText("10 feet");
+                        OutputProximity.setText("10 feet" + "\n" + (int)NewPosition + " dBm");
                     }
                     else if (NewPosition >= ZONES[3] && NewPosition < ZONES[2])
                     {
                         moveIndicatorGlow(4);
-                        OutputProximity.setText("20 feet");
+                        OutputProximity.setText("25 feet" + "\n" + (int)NewPosition + " dBm");
                     }
                     else if (NewPosition >= ZONES[4] && NewPosition < ZONES[3])
                     {
                         moveIndicatorGlow(5);
-                        OutputProximity.setText("30 feet");
+                        OutputProximity.setText("45 feet" + "\n" + (int)NewPosition + " dBm");
 
                         //Sound text alarm
                         //ToneGenerator alarm = new ToneGenerator(AudioManager.STREAM_ALARM,100);
@@ -235,7 +236,7 @@ public class RangeFinderActivity extends AppCompatActivity
                     else if (NewPosition < ZONES[4])
                     {
                         moveIndicatorGlow(6);
-                        OutputProximity.setText("40+ feet");
+                        OutputProximity.setText("45+ feet" + "\n" + (int)NewPosition + " dBm");
                     }
                 }
             }
