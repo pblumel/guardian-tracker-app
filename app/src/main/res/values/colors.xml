@@ -6,7 +6,9 @@
 
     <!-- Rangefinder Activity -->
 
-    <color name="node_color">#FF616161</color>
-    <color name="indicator_color">#FFFF8F00</color>
-    <color name="indicator_color_transparent">#00FF8F00</color>
+    <color name="immediate_range_ring">#455a64</color>
+    <color name="near_range_ring">#607d8b</color>
+    <color name="far_range_ring">#cfd8dc</color>
+    <color name="node_color">#bdbdbd</color>
+    <color name="indicator_color">#FFA000</color>
 </resources>

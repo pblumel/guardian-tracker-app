@@ -7,7 +7,6 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <!-- Rangefinder Activity -->
-    <dimen name="ring_thickness">5dp</dimen>
     <dimen name="range_label">20sp</dimen>
     <dimen name="range_label_Lmargin">10dp</dimen>
     <dimen name="node_diameter">20dp</dimen>
