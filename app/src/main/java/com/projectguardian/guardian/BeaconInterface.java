@@ -82,6 +82,8 @@ public class BeaconInterface extends Application implements BeaconConsumer {
         //SET THE SCAN APP SCAN PERIOD
         beaconManager.setForegroundScanPeriod(250L);
         beaconManager.setForegroundBetweenScanPeriod(0L);
+        beaconManager.setBackgroundScanPeriod(250L);
+        beaconManager.setBackgroundBetweenScanPeriod(0L);
         try {
             beaconManager.updateScanPeriods();
         } catch (RemoteException e) { }
