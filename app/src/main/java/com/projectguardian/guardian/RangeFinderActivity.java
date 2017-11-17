@@ -166,24 +166,11 @@ public class RangeFinderActivity extends AppCompatActivity
                 glow.setRepeatMode(Animation.REVERSE);
 
 
-                if (((BeaconInterface)getApplicationContext()).numTrackedObj == 0) {
-
-                    //OrangeGlow.clearAnimation();
-
-
-                    //output nothing
-                    //OrangeGlow.setVisibility(View.INVISIBLE);
-                    //OrangeIndicator.setVisibility(View.INVISIBLE);  // TODO Do something else, maybe change colors or move to node 7
-
-                    //Display progress bar indicating that we are searching for beacons
-                    //loadRegion.setVisibility(View.VISIBLE);
-                    //gray_out.setVisibility(View.VISIBLE);
-                }
-                else {
+                if (((BeaconInterface)getApplicationContext()).numTrackedObj != 0 && !((BeaconInterface)getApplicationContext()).RSSIContainer_copy.isEmpty()) {
                     //Set up Beacon Tracker
                     //Create a class for all these attributes
                     //OrangeGlow.setVisibility(View.VISIBLE);
-                    OrangeIndicator.setVisibility(View.VISIBLE);
+
                     //OrangeGlow.startAnimation(glow);
 
                     //clear progress bar
@@ -238,6 +225,7 @@ public class RangeFinderActivity extends AppCompatActivity
                         moveIndicatorGlow(6);
                         OutputProximity.setText("45+ feet" + "\n" + (int)NewPosition + " dBm");
                     }
+                    OrangeIndicator.setVisibility(View.VISIBLE);
                 }
             }
         });
