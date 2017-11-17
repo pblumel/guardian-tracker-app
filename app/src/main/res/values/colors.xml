@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#f44336</color>
 
     <!-- Rangefinder Activity -->
 
@@ -11,4 +11,5 @@
     <color name="far_range_ring">#cfd8dc</color>
     <color name="node_color">#bdbdbd</color>
     <color name="indicator_color">#FFA000</color>
+    <color name="seekbar_thumb">#f44336</color>
 </resources>

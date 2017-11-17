@@ -1,6 +1,8 @@
 package com.projectguardian.guardian;
 
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -17,6 +19,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 public class RangeFinderActivity extends AppCompatActivity
@@ -28,13 +31,17 @@ public class RangeFinderActivity extends AppCompatActivity
     private Handler mHandler;
 
     int counter = 0; //this is a test counter
+    boolean boundary_exceeded = false;
 
     //GUI DECLARATIONS
     //ProgressBar loadRegion;
     //ImageView gray_out;
     //ImageView OrangeGlow;
     ImageView OrangeIndicator;
-    ImageView[] NODES = new ImageView[7];
+    ImageView[] NODES = new ImageView[6];
+    SeekBar proximitySeekbar;
+
+    ToneGenerator alarm;
 
     TextView OutputProximity;
     //TextView MeanOutput;
@@ -75,7 +82,9 @@ public class RangeFinderActivity extends AppCompatActivity
         NODES[3] = (ImageView) findViewById(R.id.node4);
         NODES[4] = (ImageView) findViewById(R.id.node5);
         NODES[5] = (ImageView) findViewById(R.id.node6);
-        NODES[6] = (ImageView) findViewById(R.id.node7);
+        proximitySeekbar = (SeekBar) findViewById(R.id.set_proximity);
+
+        alarm = new ToneGenerator(AudioManager.STREAM_ALARM,20);
 
         mHandler = new Handler();
         start_UI_updater();
@@ -194,39 +203,49 @@ public class RangeFinderActivity extends AppCompatActivity
                     {
                         moveIndicatorGlow(1);
                         OutputProximity.setText("2 feet" + "\n" + (int)NewPosition + " dBm");  // TODO use strings.xml
+                        
+                        boundary_exceeded = false;
                     }
                     else if (NewPosition >= ZONES[1] && NewPosition < ZONES[0])
                     {
                         moveIndicatorGlow(2);
                         OutputProximity.setText("5 feet" + "\n" + (int)NewPosition + " dBm");
+
+                        boundary_exceeded = false;
                     }
                     else if (NewPosition >= ZONES[2] && NewPosition < ZONES[1])
                     {
                         moveIndicatorGlow(3);
                         OutputProximity.setText("10 feet" + "\n" + (int)NewPosition + " dBm");
+
+                        boundary_exceeded = (proximitySeekbar.getProgress() == 0);
                     }
                     else if (NewPosition >= ZONES[3] && NewPosition < ZONES[2])
                     {
                         moveIndicatorGlow(4);
                         OutputProximity.setText("25 feet" + "\n" + (int)NewPosition + " dBm");
+
+                        boundary_exceeded = (proximitySeekbar.getProgress() <= 1);
                     }
                     else if (NewPosition >= ZONES[4] && NewPosition < ZONES[3])
                     {
                         moveIndicatorGlow(5);
                         OutputProximity.setText("45 feet" + "\n" + (int)NewPosition + " dBm");
 
-                        //Sound text alarm
-                        //ToneGenerator alarm = new ToneGenerator(AudioManager.STREAM_ALARM,100);
-                        //alarm.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD,200);
-
+                        boundary_exceeded = (proximitySeekbar.getProgress() <= 2);
                     }
                     else if (NewPosition < ZONES[4])
                     {
                         moveIndicatorGlow(6);
                         OutputProximity.setText("45+ feet" + "\n" + (int)NewPosition + " dBm");
+
+                        boundary_exceeded = (proximitySeekbar.getProgress() <= 3);
                     }
                     OrangeIndicator.setVisibility(View.VISIBLE);
                 }
+
+                if (boundary_exceeded)
+                    alarm.startTone(ToneGenerator.TONE_PROP_BEEP,1000);
             }
         });
     }
