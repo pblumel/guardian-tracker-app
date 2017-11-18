@@ -25,38 +25,32 @@ import android.widget.TextView;
 public class RangeFinderActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    String TAG = "RangeFinder";
+    private final String TAG = "RangeFinder";
 
-    private int mInterval = 1000;   // 1000 ms
+    private final int mInterval = 1000;   // 1000 ms
     private Handler mHandler;
 
-    int counter = 0; //this is a test counter
-    boolean boundary_exceeded = false;
+    private boolean boundary_exceeded = false;
 
     //GUI DECLARATIONS
-    //ProgressBar loadRegion;
-    //ImageView gray_out;
-    //ImageView OrangeGlow;
-    ImageView OrangeIndicator;
-    ImageView[] NODES = new ImageView[6];
-    SeekBar proximitySeekbar;
+    private ImageView[] NODES = new ImageView[6];
+    private ImageView OrangeIndicator;
+    private SeekBar proximitySeekbar;
 
-    ToneGenerator alarm;
+    private ToneGenerator alarm;
 
-    TextView OutputProximity;
-    //TextView MeanOutput;
+    private TextView OutputProximity;
 
-    int AnimDur = 800;
-    //char numTrackedObj = 0;
+    private final int AnimDur = 800;
 
     //Declare Zones       // THESE COMMENTS ARE TAKEN AS ABSOLUTE VALUE
-    double[] ZONES = {
-                        -57.0,  // if less than, then tracked object is within 2 feet
-                        -61.0,  // if less than, then tracked object is within 5 feet
-                        -67.0,  // if less than, then tracked object is within 10 feet
-                        -75.0,  // if less than, then tracked object is within 25 feet
-                        -79.0   // if less than, then tracked object is within 45 feet
-                     };  // if greater than zone 4 then tracked object is 45+ feet
+    private final double[] ZONES = {
+                                    -57.0,  // if less than, then tracked object is within 2 feet
+                                    -61.0,  // if less than, then tracked object is within 5 feet
+                                    -67.0,  // if less than, then tracked object is within 10 feet
+                                    -75.0,  // if less than, then tracked object is within 25 feet
+                                    -79.0   // if less than, then tracked object is within 45 feet
+                                    };  // if greater than zone 4 then tracked object is 45+ feet
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +76,7 @@ public class RangeFinderActivity extends AppCompatActivity
         NODES[3] = (ImageView) findViewById(R.id.node4);
         NODES[4] = (ImageView) findViewById(R.id.node5);
         NODES[5] = (ImageView) findViewById(R.id.node6);
+        OrangeIndicator = (ImageView) findViewById(R.id.OrangeIndicator);
         proximitySeekbar = (SeekBar) findViewById(R.id.set_proximity);
 
         alarm = new ToneGenerator(AudioManager.STREAM_ALARM,20);
@@ -160,42 +155,13 @@ public class RangeFinderActivity extends AppCompatActivity
     private void updateUi() {
         runOnUiThread(new Runnable() {
             public void run() {
-                //OrangeGlow = (ImageView) findViewById(R.id.OrangeGlow);
-                OrangeIndicator = (ImageView) findViewById(R.id.OrangeIndicator);
-                //loadRegion = (ProgressBar) findViewById(R.id.progressBar);
-                //gray_out = (ImageView) findViewById(R.id.gray_out);
-
-                //loadRegion.getIndeterminateDrawable().setColorFilter(Color.parseColor("#1377dc"), android.graphics.PorterDuff.Mode.SRC_ATOP);  //set color of progress bar
-
                 final Animation glow = new AlphaAnimation(1.0f, 0.3f); //f is for floating point
                 glow.setDuration(AnimDur); // every 0.8 seconds
                 glow.setInterpolator(new LinearInterpolator());
                 glow.setRepeatCount(Animation.INFINITE);
                 glow.setRepeatMode(Animation.REVERSE);
 
-
                 if (((BeaconInterface)getApplicationContext()).numTrackedObj != 0 && !((BeaconInterface)getApplicationContext()).RSSIContainer_copy.isEmpty()) {
-                    //Set up Beacon Tracker
-                    //Create a class for all these attributes
-                    //OrangeGlow.setVisibility(View.VISIBLE);
-
-                    //OrangeGlow.startAnimation(glow);
-
-                    //clear progress bar
-                    //loadRegion.setVisibility(View.GONE);
-                    //gray_out.setVisibility(View.GONE);
-
-                    //set orange glow to blinking if we haven't done it already
-                    //SET SOME CONDITION HERE SIGNIFYING THAT THE ANIMATION IS ALREADY SET
-                    //OrangeGlow.startAnimation(glow);
-
-                    OrangeIndicator.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            moveIndicatorGlow(counter+1);
-                        }
-                    });
-
                     double NewPosition = ((BeaconInterface)getApplicationContext()).getMean(((BeaconInterface)getApplicationContext()).RSSIContainer_copy);
                     //logic introduced to move our tracked obj to a proximity node
                     if (NewPosition >= ZONES[0]) //if we are really close!
