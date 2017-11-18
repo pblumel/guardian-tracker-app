@@ -123,7 +123,6 @@ public class RangeFinderActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
-        stop_UI_updater();
     }
 
     @Override
