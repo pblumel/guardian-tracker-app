@@ -6,6 +6,9 @@
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
+    <!-- Device Discovery Activity -->
+    <dimen name="scan_msg">17sp</dimen>
+
     <!-- Rangefinder Activity -->
     <dimen name="range_label">20sp</dimen>
     <dimen name="range_label_Lmargin">10dp</dimen>
