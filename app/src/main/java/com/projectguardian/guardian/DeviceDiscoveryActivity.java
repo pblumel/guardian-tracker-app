@@ -35,6 +35,8 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
     // Coarse location permission request code
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 101;
 
+    NavigationView navigationView;
+
     private int mInterval = 1000;   // 1000 ms
     private Handler mHandler;
 
@@ -54,7 +56,7 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         CheckBTPermissions();
@@ -78,6 +80,7 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+        navigationView.getMenu().getItem(2).setChecked(true);   // Highlight Device Discovery in nav drawer
         start_UI_updater();
     }
 

@@ -27,6 +27,8 @@ public class RangeFinderActivity extends AppCompatActivity
 
     private final String TAG = "RangeFinder";
 
+    private NavigationView navigationView;
+
     private final int mInterval = 1000;   // 1000 ms
     private Handler mHandler;
 
@@ -65,7 +67,7 @@ public class RangeFinderActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         //SET UP GUI AND NODES
@@ -123,6 +125,7 @@ public class RangeFinderActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+        navigationView.getMenu().getItem(0).setChecked(true);   // Highlight Rangefinder in nav drawer
         start_UI_updater();
     }
 
