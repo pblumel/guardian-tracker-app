@@ -74,6 +74,7 @@ public class BeaconInterface extends Application implements BeaconConsumer {
         super.onCreate();
 
         beaconManager = BeaconManager.getInstanceForApplication(this);
+        beaconManager.getBeaconParsers().clear();   // Remove default beacon parser so only ours is filtered
         beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BEACON_FORMAT));
 
         // Bind service to this thread
