@@ -25,9 +25,10 @@ public class BeaconInterface extends Application implements BeaconConsumer {
     // private static final String BEACON_FORMAT = "s:0-1=feaa,m:2-2=00,p:3-3:-41,i:4-13,i:14-19";               // EDDYSTONE_UID
     // private static final String BEACON_FORMAT = "s:0-1=feaa,m:2-2=10,p:3-3:-41,i:4-20v";                      // EDDYSTONE_URL
     // private static final String BEACON_FORMAT = "m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24";                  // IBEACON
-    private static final String BEACON_FORMAT = "m:2-3=0F02," + // Type (iBeacon) & data length (7 bytes)
-                                                "i:4-4," +      // UUID
-                                                "p:5-5";        // Calibrated RSSI
+    private static final String BEACON_FORMAT = "m:0-1=00c5," +   // Matching byte sequence
+                                                "i:0-0," +       // Must have one byte of identifier
+                                                "p:1-1," +       // Calibrated RSSI (power calibration field)
+                                                "d:2-3";       // Battery level (data field)
 
     public String selectedBeacon = "0";
 
@@ -107,7 +108,7 @@ public class BeaconInterface extends Application implements BeaconConsumer {
                         /* Update DeviceDiscovery data */
                         if (!deviceMAC.contains(beacon.getBluetoothAddress()))      // If beacon is not on the list, add it
                         {
-                            String deviceInfo = beacon.getBluetoothName() + "    " + beacon.getBluetoothAddress();
+                            String deviceInfo = beacon.getBluetoothName() + "    " + beacon.getBluetoothAddress() + "    " + beacon.getDataFields().get(0).intValue() + "%";
                             Log.i(TAG,"----------" + deviceInfo + " found");
                             deviceList.add(deviceInfo);
                             deviceMAC.add(beacon.getBluetoothAddress());
