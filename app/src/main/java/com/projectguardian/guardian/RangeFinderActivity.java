@@ -165,7 +165,7 @@ public class RangeFinderActivity extends AppCompatActivity
                 glow.setRepeatMode(Animation.REVERSE);
 
                 if (((BeaconInterface)getApplicationContext()).numTrackedObj != 0 && !((BeaconInterface)getApplicationContext()).RSSIContainer_copy.isEmpty()) {
-                    double NewPosition = ((BeaconInterface)getApplicationContext()).getMean(((BeaconInterface)getApplicationContext()).RSSIContainer_copy);
+                    double NewPosition = ((BeaconInterface)getApplicationContext()).RSSIContainer_copy.get(((BeaconInterface)getApplicationContext()).RSSIContainer_copy.size()-1);
                     //logic introduced to move our tracked obj to a proximity node
                     if (NewPosition >= ZONES[0]) //if we are really close!
                     {
