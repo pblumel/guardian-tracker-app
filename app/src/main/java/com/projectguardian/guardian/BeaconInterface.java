@@ -141,7 +141,7 @@ public class BeaconInterface extends Application implements BeaconConsumer {
             //perform processing
             removeOutliers(RSSIContainer_copy);
             KFilter(RSSIContainer_copy);
-            //smoothRSSI(copy); //Change to apply running average
+            smoothRSSI(RSSIContainer_copy); //Change to apply running average
             removeOutliers(RSSIContainer_copy);
         }
     }
@@ -161,6 +161,28 @@ public class BeaconInterface extends Application implements BeaconConsumer {
 
         mean = mean / v.size();
         return mean;
+    }
+
+    void smoothRSSI(ArrayList<Double> v)
+    {
+        double alpha = 0.5; //smoothing constant
+        int count = 1; //used for running mean
+        double RSSI = 0; //temp value used to hold the current RSSI data
+        double RSSIRunningMean = RSSI; //initialize running mean
+
+        //smooth every data point iteratively
+        for (int i = 0; i < v.size(); i++)
+        {
+            RSSI = v.get(i);
+
+            //Don't update for our first data point, since its our first we have no RunningMean yet
+            if (count > 1)
+                v.set(i,(alpha * RSSI + (1 - alpha) * RSSIRunningMean)); //inserts the smoothed value back into the arrayList
+
+            RSSIRunningMean -= RSSIRunningMean / count;
+            RSSIRunningMean += RSSI / count; // running mean is up to date
+            count++;
+        }
     }
 
     private boolean isOutlier(double value)
