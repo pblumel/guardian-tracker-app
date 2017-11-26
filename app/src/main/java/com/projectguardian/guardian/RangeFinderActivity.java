@@ -48,10 +48,10 @@ public class RangeFinderActivity extends AppCompatActivity
     //Declare Zones       // THESE COMMENTS ARE TAKEN AS ABSOLUTE VALUE
     private final double[] ZONES = {
                                     -57.0,  // if less than, then tracked object is within 2 feet
-                                    -61.0,  // if less than, then tracked object is within 5 feet
-                                    -67.0,  // if less than, then tracked object is within 10 feet
-                                    -75.0,  // if less than, then tracked object is within 25 feet
-                                    -79.0   // if less than, then tracked object is within 45 feet
+                                    -64.0,  // if less than, then tracked object is within 5 feet
+                                    -68.0,  // if less than, then tracked object is within 10 feet
+                                    -76.0,  // if less than, then tracked object is within 25 feet
+                                    -81.0   // if less than, then tracked object is within 45 feet
                                     };  // if greater than zone 4 then tracked object is 45+ feet
 
     @Override
