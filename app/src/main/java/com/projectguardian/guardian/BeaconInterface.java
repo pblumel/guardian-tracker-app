@@ -26,9 +26,9 @@ public class BeaconInterface extends Application implements BeaconConsumer {
     // private static final String BEACON_FORMAT = "s:0-1=feaa,m:2-2=10,p:3-3:-41,i:4-20v";                      // EDDYSTONE_URL
     // private static final String BEACON_FORMAT = "m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24";                  // IBEACON
     private static final String BEACON_FORMAT = "m:0-1=00c5," +   // Matching byte sequence
-                                                "i:0-0," +       // Must have one byte of identifier
-                                                "p:1-1," +       // Calibrated RSSI (power calibration field)
-                                                "d:2-3";       // Battery level (data field)
+                                                "i:0-0," +        // Must have one byte of identifier
+                                                "p:1-1," +        // Calibrated RSSI (power calibration field)
+                                                "d:2-2";          // Battery level (data field)
 
     public String selectedBeacon = "0";
 
