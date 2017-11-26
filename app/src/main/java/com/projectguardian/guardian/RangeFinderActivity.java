@@ -6,6 +6,7 @@ import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -38,6 +39,7 @@ public class RangeFinderActivity extends AppCompatActivity
     private ImageView[] NODES = new ImageView[6];
     private ImageView OrangeIndicator;
     private SeekBar proximitySeekbar;
+    private ConstraintLayout alarmBoundaryHelp;
 
     private ToneGenerator alarm;
 
@@ -79,7 +81,11 @@ public class RangeFinderActivity extends AppCompatActivity
         NODES[4] = (ImageView) findViewById(R.id.node5);
         NODES[5] = (ImageView) findViewById(R.id.node6);
         OrangeIndicator = (ImageView) findViewById(R.id.OrangeIndicator);
-        proximitySeekbar = (SeekBar) findViewById(R.id.set_proximity);
+
+        //SET UP HELP SCREEN
+        alarmBoundaryHelp = (ConstraintLayout) findViewById(R.id.alarm_boundary_help);
+
+        configureSeekBar();
 
         alarm = new ToneGenerator(AudioManager.STREAM_ALARM,20);
 
@@ -227,5 +233,25 @@ public class RangeFinderActivity extends AppCompatActivity
                         * ((NODES[node-1].getBottom() - NODES[node-1].getTop())/getResources().getDimension(R.dimen.node_diameter)))
                 .setDuration(AnimDur)
                 .start();
+    }
+
+    private void configureSeekBar() {
+        proximitySeekbar = (SeekBar) findViewById(R.id.set_proximity);
+        proximitySeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                alarmBoundaryHelp.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
 }
