@@ -16,7 +16,7 @@ import org.altbeacon.beacon.BeaconParser;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 
-public class BeaconInterface extends Application implements BeaconConsumer {
+public class BeaconInterface extends Application implements BeaconConsumer, RangeNotifier {
     String TAG = "BeaconInterface";
     //Beacon Types
     // private static final String BEACON_FORMAT = "m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25";          // ALTBEACON
@@ -78,9 +78,6 @@ public class BeaconInterface extends Application implements BeaconConsumer {
         beaconManager.getBeaconParsers().clear();   // Remove default beacon parser so only ours is filtered
         beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BEACON_FORMAT));
 
-        // Bind service to this thread
-        beaconManager.bind(this);
-
         //SET THE SCAN APP SCAN PERIOD
         beaconManager.setForegroundScanPeriod(250L);
         beaconManager.setForegroundBetweenScanPeriod(0L);
@@ -90,48 +87,50 @@ public class BeaconInterface extends Application implements BeaconConsumer {
             beaconManager.updateScanPeriods();
         } catch (RemoteException e) { }
 
-        try {
-            beaconManager.startRangingBeaconsInRegion(new Region("myMonitoringUniqueId", null, null, null));
-        } catch (RemoteException e) { }
+        // Bind service to this thread
+        beaconManager.bind(this);
 
         Log.i(TAG,"---------- running class onCreate");
     }
 
     @Override
     public void onBeaconServiceConnect() {
-        beaconManager.addRangeNotifier(new RangeNotifier() {
-            @Override
-            public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
-                numTrackedObj = beacons.size();         // Update the number of tracked beacons
-                if (numTrackedObj > 0) {                // If beacons found
-                    for (Beacon beacon : beacons) {     // Check all beacons
-                        /* Update DeviceDiscovery data */
-                        if (!deviceMAC.contains(beacon.getBluetoothAddress()))      // If beacon is not on the list, add it
-                        {
-                            String deviceInfo = beacon.getBluetoothName() + "    " + beacon.getBluetoothAddress() + "    " + beacon.getDataFields().get(0).intValue() + "%";
-                            Log.i(TAG,"----------" + deviceInfo + " found");
-                            deviceList.add(deviceInfo);
-                            deviceMAC.add(beacon.getBluetoothAddress());
-                        }
+        try {
+            beaconManager.startRangingBeaconsInRegion(new Region("myMonitoringUniqueId", null, null, null));
+        } catch (RemoteException e) { e.printStackTrace(); }
+        beaconManager.addRangeNotifier(this);
+    }
 
-                        /* Update RangeFinder data */
-                        if (beacon.getBluetoothAddress().equals(selectedBeacon)) {  //If packet is from the selected beacon
-                            RSSIContainer.add((double) beacon.getRssi()); //appends the latest data point to the end
-                            //Fill our ArrayList with test points
-                            if (RSSIContainer.size() > BINSIZE) {  // If bin is overflowing
-                                //apply rolling window of data points (remove oldest data point and add newest data point)
-                                RSSIContainer.remove(0); //removes the oldest data point
-                                updateRange();      //update proximity map
-                            } else { // Bin is not full yet
-                                if (RSSIContainer.size() >= 2) {     // 2+ data points required for filtering
-                                    updateRange();  //update proximity map
-                                }
-                            }
+    @Override
+    public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
+        numTrackedObj = beacons.size();         // Update the number of tracked beacons
+        if (numTrackedObj > 0) {                // If beacons found
+            for (Beacon beacon : beacons) {     // Check all beacons
+                /* Update DeviceDiscovery data */
+                if (!deviceMAC.contains(beacon.getBluetoothAddress()))      // If beacon is not on the list, add it
+                {
+                    String deviceInfo = beacon.getBluetoothName() + "    " + beacon.getBluetoothAddress() + "    " + beacon.getDataFields().get(0).intValue() + "%";
+                    Log.i(TAG,"----------" + deviceInfo + " found");
+                    deviceList.add(deviceInfo);
+                    deviceMAC.add(beacon.getBluetoothAddress());
+                }
+
+                /* Update RangeFinder data */
+                if (beacon.getBluetoothAddress().equals(selectedBeacon)) {  //If packet is from the selected beacon
+                    RSSIContainer.add((double) beacon.getRssi()); //appends the latest data point to the end
+                    //Fill our ArrayList with test points
+                    if (RSSIContainer.size() > BINSIZE) {  // If bin is overflowing
+                        //apply rolling window of data points (remove oldest data point and add newest data point)
+                        RSSIContainer.remove(0); //removes the oldest data point
+                        updateRange();      //update proximity map
+                    } else { // Bin is not full yet
+                        if (RSSIContainer.size() >= 2) {     // 2+ data points required for filtering
+                            updateRange();  //update proximity map
                         }
                     }
                 }
             }
-        });
+        }
     }
 
     private void updateRange() {
