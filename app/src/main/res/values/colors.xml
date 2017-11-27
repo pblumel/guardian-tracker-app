@@ -13,5 +13,5 @@
     <color name="indicator_color">#FFA000</color>
     <color name="seekbar_thumb">#f44336</color>
     <color name="help_screen_text">#ffffff</color>
-    <color name="help_screen_bg">#ee212121</color>
+    <color name="help_screen_bg">#e0212121</color>
 </resources>
