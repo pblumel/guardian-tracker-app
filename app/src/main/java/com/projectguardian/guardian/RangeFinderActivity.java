@@ -37,13 +37,14 @@ public class RangeFinderActivity extends AppCompatActivity
 
     //GUI DECLARATIONS
     private ImageView[] NODES = new ImageView[6];
-    private ImageView OrangeIndicator;
+    private ConstraintLayout RangeIndicator;
     private SeekBar proximitySeekbar;
     private ConstraintLayout alarmBoundaryHelp;
 
     private ToneGenerator alarm;
 
     private TextView OutputProximity;
+    private TextView RangeTag;
 
     private final int AnimDur = 800;
 
@@ -80,7 +81,8 @@ public class RangeFinderActivity extends AppCompatActivity
         NODES[3] = (ImageView) findViewById(R.id.node4);
         NODES[4] = (ImageView) findViewById(R.id.node5);
         NODES[5] = (ImageView) findViewById(R.id.node6);
-        OrangeIndicator = (ImageView) findViewById(R.id.OrangeIndicator);
+        RangeIndicator = (ConstraintLayout) findViewById(R.id.range_indicator);
+        RangeTag = (TextView) findViewById(R.id.range_tag_text);
 
         //SET UP HELP SCREEN
         alarmBoundaryHelp = (ConstraintLayout) findViewById(R.id.alarm_boundary_help);
@@ -176,46 +178,52 @@ public class RangeFinderActivity extends AppCompatActivity
                     if (NewPosition >= ZONES[0]) //if we are really close!
                     {
                         moveIndicatorGlow(1);
-                        OutputProximity.setText("2 feet" + "\n" + (int)NewPosition + " dBm");  // TODO use strings.xml
+                        OutputProximity.setText((int)NewPosition + " dBm");  // TODO use strings.xml
+                        RangeTag.setText("2");
                         
                         boundary_exceeded = false;
                     }
                     else if (NewPosition >= ZONES[1] && NewPosition < ZONES[0])
                     {
                         moveIndicatorGlow(2);
-                        OutputProximity.setText("5 feet" + "\n" + (int)NewPosition + " dBm");
+                        OutputProximity.setText((int)NewPosition + " dBm");
+                        RangeTag.setText("5");
 
                         boundary_exceeded = false;
                     }
                     else if (NewPosition >= ZONES[2] && NewPosition < ZONES[1])
                     {
                         moveIndicatorGlow(3);
-                        OutputProximity.setText("10 feet" + "\n" + (int)NewPosition + " dBm");
+                        OutputProximity.setText((int)NewPosition + " dBm");
+                        RangeTag.setText("10");
 
                         boundary_exceeded = (proximitySeekbar.getProgress() == 0);
                     }
                     else if (NewPosition >= ZONES[3] && NewPosition < ZONES[2])
                     {
                         moveIndicatorGlow(4);
-                        OutputProximity.setText("25 feet" + "\n" + (int)NewPosition + " dBm");
+                        OutputProximity.setText((int)NewPosition + " dBm");
+                        RangeTag.setText("25");
 
                         boundary_exceeded = (proximitySeekbar.getProgress() <= 1);
                     }
                     else if (NewPosition >= ZONES[4] && NewPosition < ZONES[3])
                     {
                         moveIndicatorGlow(5);
-                        OutputProximity.setText("45 feet" + "\n" + (int)NewPosition + " dBm");
+                        OutputProximity.setText((int)NewPosition + " dBm");
+                        RangeTag.setText("45");
 
                         boundary_exceeded = (proximitySeekbar.getProgress() <= 2);
                     }
                     else if (NewPosition < ZONES[4])
                     {
                         moveIndicatorGlow(6);
-                        OutputProximity.setText("45+ feet" + "\n" + (int)NewPosition + " dBm");
+                        OutputProximity.setText((int)NewPosition + " dBm");
+                        RangeTag.setText("45+");
 
                         boundary_exceeded = (proximitySeekbar.getProgress() <= 3);
                     }
-                    OrangeIndicator.setVisibility(View.VISIBLE);
+                    RangeIndicator.setVisibility(View.VISIBLE);
                 }
 
                 if (boundary_exceeded)
@@ -226,8 +234,8 @@ public class RangeFinderActivity extends AppCompatActivity
 
     public void moveIndicatorGlow(int node)
     {
-        OrangeIndicator.animate()
-                .x(OrangeIndicator.getLeft())
+        RangeIndicator.animate()
+                .x(RangeIndicator.getLeft())
                 .y(NODES[node-1].getTop()
                         - ((getResources().getDimension(R.dimen.range_indicator_diameter) - getResources().getDimension(R.dimen.node_diameter))/2)
                         * ((NODES[node-1].getBottom() - NODES[node-1].getTop())/getResources().getDimension(R.dimen.node_diameter)))

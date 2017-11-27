@@ -256,14 +256,55 @@
         android:textAlignment="textEnd"/>
 
     <ImageView
-        android:id="@+id/OrangeIndicator"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:id="@+id/range_indicator_guide"
+        app:layout_constraintLeft_toLeftOf="@id/node1"
+        app:layout_constraintRight_toRightOf="@id/node1"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/range_indicator"
         android:visibility="invisible" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/range_indicator"
+        app:layout_constraintLeft_toLeftOf="@id/range_indicator_guide"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible">
+
+        <ImageView
+            android:id="@+id/OrangeIndicator"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/range_indicator" />
+
+        <ImageView
+            android:id="@+id/RangeTag"
+            app:layout_constraintLeft_toRightOf="@id/OrangeIndicator"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/node_label"
+            android:rotation="180" />
+
+        <TextView
+            android:id="@+id/range_tag_text"
+            app:layout_constraintLeft_toLeftOf="@id/RangeTag"
+            app:layout_constraintTop_toTopOf="@id/RangeTag"
+            app:layout_constraintBottom_toBottomOf="@id/RangeTag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:text=""
+            android:textSize="12sp"
+            android:textColor="#ffffff"/>
+
+    </android.support.constraint.ConstraintLayout>
 
     <!-- HELP POPUP -->
 
