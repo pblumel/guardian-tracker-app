@@ -25,10 +25,10 @@ public class BeaconInterface extends Application implements BeaconConsumer, Rang
     // private static final String BEACON_FORMAT = "s:0-1=feaa,m:2-2=00,p:3-3:-41,i:4-13,i:14-19";               // EDDYSTONE_UID
     // private static final String BEACON_FORMAT = "s:0-1=feaa,m:2-2=10,p:3-3:-41,i:4-20v";                      // EDDYSTONE_URL
     // private static final String BEACON_FORMAT = "m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24";                  // IBEACON
-    private static final String BEACON_FORMAT = "m:0-1=00c5," +   // Matching byte sequence
-                                                "i:0-0," +        // Must have one byte of identifier
-                                                "p:1-1," +        // Calibrated RSSI (power calibration field)
-                                                "d:2-2";          // Battery level (data field)
+    private static final String BEACON_FORMAT = "m:0-0=42," +   // Matching Byte Sequence
+                                                "i:0-0," +      // Identifier (0x42)
+                                                "p:0-0," +      // Power Calibration Field (Unused but required)
+                                                "d:1-1";        // Data Field (Battery level)
 
     public String selectedBeacon = "0";
 
