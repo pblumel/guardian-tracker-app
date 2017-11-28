@@ -35,7 +35,7 @@ public class BeaconInterface extends Application implements BeaconConsumer, Rang
     private BeaconManager beaconManager;
 
     public int numTrackedObj = 0;
-    private int BINSIZE = 30;
+    private int BINSIZE = 10;
 
     //Data Processing Variables
     //initial values for the kalman filter
@@ -79,9 +79,9 @@ public class BeaconInterface extends Application implements BeaconConsumer, Rang
         beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BEACON_FORMAT));
 
         //SET THE SCAN APP SCAN PERIOD
-        beaconManager.setForegroundScanPeriod(250L);
+        beaconManager.setForegroundScanPeriod(500L);
         beaconManager.setForegroundBetweenScanPeriod(0L);
-        beaconManager.setBackgroundScanPeriod(250L);
+        beaconManager.setBackgroundScanPeriod(500L);
         beaconManager.setBackgroundBetweenScanPeriod(0L);
         try {
             beaconManager.updateScanPeriods();
@@ -164,7 +164,7 @@ public class BeaconInterface extends Application implements BeaconConsumer, Rang
 
     void smoothRSSI(ArrayList<Double> v)
     {
-        double alpha = 0.5; //smoothing constant
+        double alpha = 0.75; //smoothing constant
         int count = 1; //used for running mean
         double RSSI = 0; //temp value used to hold the current RSSI data
         double RSSIRunningMean = RSSI; //initialize running mean
