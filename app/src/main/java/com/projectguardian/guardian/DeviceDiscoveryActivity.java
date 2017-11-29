@@ -80,7 +80,7 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        navigationView.getMenu().getItem(2).setChecked(true);   // Highlight Device Discovery in nav drawer
+        navigationView.getMenu().getItem(1).setChecked(true);   // Highlight Device Discovery in nav drawer
         start_UI_updater();
     }
 
