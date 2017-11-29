@@ -110,11 +110,7 @@ public class RangeFinderActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_map) {
-            // Launch MapActivity
-            Intent map = new Intent(RangeFinderActivity.this, MapActivity.class);
-            startActivity(map);
-        } else if (id == R.id.nav_device_discovery) {
+        if (id == R.id.nav_device_discovery) {
             // Launch DeviceDiscoveryActivity
             Intent deviceDiscovery = new Intent(RangeFinderActivity.this, DeviceDiscoveryActivity.class);
             startActivity(deviceDiscovery);

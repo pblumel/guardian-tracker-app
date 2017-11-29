@@ -117,10 +117,6 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
                 Intent rangefinder = new Intent(DeviceDiscoveryActivity.this, RangeFinderActivity.class);
                 startActivity(rangefinder);
             }
-        } else if (id == R.id.nav_map) {
-            // Launch MapActivity
-            Intent map = new Intent(DeviceDiscoveryActivity.this, MapActivity.class);
-            startActivity(map);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
