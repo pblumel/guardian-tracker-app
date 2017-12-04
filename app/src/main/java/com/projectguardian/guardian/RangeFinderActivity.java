@@ -1,6 +1,7 @@
 package com.projectguardian.guardian;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Bundle;
@@ -86,6 +87,7 @@ public class RangeFinderActivity extends AppCompatActivity
 
         //SET UP HELP SCREEN
         alarmBoundaryHelp = (ConstraintLayout) findViewById(R.id.alarm_boundary_help);
+        showHelp(); // Show help screen if this is the first startup
 
         configureSeekBar();
 
@@ -257,5 +259,14 @@ public class RangeFinderActivity extends AppCompatActivity
 
             }
         });
+    }
+
+    private void showHelp() {
+        SharedPreferences settings = getSharedPreferences("PrefsFile", 0);
+
+        if (!settings.contains("first_start")) {    // If first start, entry wont exist
+            alarmBoundaryHelp.setVisibility(View.VISIBLE);
+            settings.edit().putBoolean("first_start", false).commit();  // Create entry
+        }
     }
 }

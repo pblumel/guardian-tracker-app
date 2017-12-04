@@ -317,7 +317,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/help_screen_bg"
-        android:visibility="visible">
+        android:visibility="invisible">
 
         <TextView
             android:id="@+id/alarm_boundary_help_header"
