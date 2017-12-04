@@ -24,9 +24,6 @@
     <string name="scan_msg">Scanning&#8230;</string>
 
     <!-- Rangefinder Activity -->
-    <string name="immediate_range">Immediate</string>
-    <string name="near_range">Near</string>
-    <string name="far_range">Far</string>
     <string name="noDeviceSelected_title">No device selected</string>
     <string name="noDeviceSelected_message">To use the rangefinder, you must first select a device.</string>
     <string name="alarm_boundary_help_header">Alarm Boundary</string>
