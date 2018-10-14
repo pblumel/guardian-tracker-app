@@ -35,35 +35,35 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
     // Coarse location permission request code
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 101;
 
-    NavigationView navigationView;
+    NavigationView navigationView;  // Nav Drawer
 
-    private int mInterval = 1000;   // 1000 ms
+    private int mInterval = 1000;   // 1000 ms UI refresh period
     private Handler mHandler;
 
-    public ArrayAdapter<String> deviceNames;
+    public ArrayAdapter<String> deviceNames;    // ArrayAdapter between ListView and device list
     public ListView deviceList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_device_discovery);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setContentView(R.layout.activity_device_discovery); // Specify XML layout to use
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);  // Specify nav drawer layout
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
-        toggle.syncState();
+        toggle.syncState();     // Hide drawer by default
 
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this); // Nav drawer item selection listener
 
         CheckBTPermissions();
         CheckLocationPermissions();
 
         deviceNames = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, ((BeaconInterface)getApplicationContext()).deviceList);
-        deviceList = (ListView) findViewById(R.id.deviceList);
+        deviceList = findViewById(R.id.deviceList);
         deviceList.setAdapter(deviceNames);
         deviceList.setOnItemClickListener(this);
 
@@ -92,7 +92,7 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -119,7 +119,7 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
             }
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

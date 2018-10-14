@@ -62,31 +62,31 @@ public class RangeFinderActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_range_finder);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         //SET UP GUI AND NODES
-        OutputProximity = (TextView) findViewById(R.id.range);
-        NODES[0] = (ImageView) findViewById(R.id.node1);
-        NODES[1] = (ImageView) findViewById(R.id.node2);
-        NODES[2] = (ImageView) findViewById(R.id.node3);
-        NODES[3] = (ImageView) findViewById(R.id.node4);
-        NODES[4] = (ImageView) findViewById(R.id.node5);
-        NODES[5] = (ImageView) findViewById(R.id.node6);
-        RangeIndicator = (ConstraintLayout) findViewById(R.id.range_indicator);
-        RangeTag = (TextView) findViewById(R.id.range_tag_text);
+        OutputProximity = findViewById(R.id.range);
+        NODES[0] = findViewById(R.id.node1);
+        NODES[1] = findViewById(R.id.node2);
+        NODES[2] = findViewById(R.id.node3);
+        NODES[3] = findViewById(R.id.node4);
+        NODES[4] = findViewById(R.id.node5);
+        NODES[5] = findViewById(R.id.node6);
+        RangeIndicator = findViewById(R.id.range_indicator);
+        RangeTag = findViewById(R.id.range_tag_text);
 
         //SET UP HELP SCREEN
-        alarmBoundaryHelp = (ConstraintLayout) findViewById(R.id.alarm_boundary_help);
+        alarmBoundaryHelp = findViewById(R.id.alarm_boundary_help);
         showHelp(); // Show help screen if this is the first startup
 
         configureSeekBar();
@@ -99,7 +99,7 @@ public class RangeFinderActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -118,7 +118,7 @@ public class RangeFinderActivity extends AppCompatActivity
             startActivity(deviceDiscovery);
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -242,7 +242,7 @@ public class RangeFinderActivity extends AppCompatActivity
     }
 
     private void configureSeekBar() {
-        proximitySeekbar = (SeekBar) findViewById(R.id.set_proximity);
+        proximitySeekbar = findViewById(R.id.set_proximity);
         proximitySeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
