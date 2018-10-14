@@ -266,7 +266,7 @@ public class RangeFinderActivity extends AppCompatActivity
 
         if (!settings.contains("first_start")) {    // If first start, entry wont exist
             alarmBoundaryHelp.setVisibility(View.VISIBLE);
-            settings.edit().putBoolean("first_start", false).commit();  // Create entry
+            settings.edit().putBoolean("first_start", false).apply();  // Create entry
         }
     }
 }
