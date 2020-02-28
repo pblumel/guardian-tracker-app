@@ -128,33 +128,23 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode)
-        {
-            case REQUEST_ENABLE_BT:
-            {
-                if (resultCode == RESULT_OK)
-                {
-                    Log.d(TAG, "-----------------bluetooth enabled");
-                }
-                else
-                {
-                    final AlertDialog.Builder bluetoothDisabled = new AlertDialog.Builder(this);
-                    bluetoothDisabled.setTitle(R.string.bluetoothDisabled_title);
-                    bluetoothDisabled.setMessage(R.string.bluetoothDisabled_message);
-                    bluetoothDisabled.setPositiveButton(android.R.string.ok, null);
-                    bluetoothDisabled.setOnDismissListener(new DialogInterface.OnDismissListener()
-                    {
-                        @Override
-                        public void onDismiss(DialogInterface dialog)
-                        {
-                            // BlueTooth disabled, close app
-                            Log.d(TAG, "-----------------bluetooth disabled");
-                            finish();
-                        }
-                    });
-                    bluetoothDisabled.show();
-                }
-                break;
+        if (requestCode == REQUEST_ENABLE_BT) {
+            if (resultCode == RESULT_OK) {
+                Log.d(TAG, "-----------------bluetooth enabled");
+            } else {
+                final AlertDialog.Builder bluetoothDisabled = new AlertDialog.Builder(this);
+                bluetoothDisabled.setTitle(R.string.bluetoothDisabled_title);
+                bluetoothDisabled.setMessage(R.string.bluetoothDisabled_message);
+                bluetoothDisabled.setPositiveButton(android.R.string.ok, null);
+                bluetoothDisabled.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        // BlueTooth disabled, close app
+                        Log.d(TAG, "-----------------bluetooth disabled");
+                        finish();
+                    }
+                });
+                bluetoothDisabled.show();
             }
         }
     }
