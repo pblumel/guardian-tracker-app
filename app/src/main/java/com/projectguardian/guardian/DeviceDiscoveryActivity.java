@@ -267,13 +267,8 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
 
     public boolean checkPermissions(String per) {
         boolean result = true;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            int check = checkSelfPermission(per);
-            result = (check == PackageManager.PERMISSION_GRANTED);
-            Log.i(TAG, "----------------------Checking RunTime Permissions Since the Device VERSION_CODE >= M :" + result);
-        } else {
-            Log.i(TAG, "----------------------No Need of RunTime Permissions for Devices with VERSION_CODE < M");
-        }
+        result = (checkSelfPermission(per) == PackageManager.PERMISSION_GRANTED);
+        Log.i(TAG, "----------------------Checking RunTime Permissions: " + result);
         return result;
     }
 
