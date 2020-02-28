@@ -141,7 +141,7 @@ public class RangeFinderActivity extends AppCompatActivity
         stop_UI_updater();
     }
 
-    Runnable mStatusChecker = new Runnable() {
+    private Runnable mStatusChecker = new Runnable() {
         @Override
         public void run() {
             try {
@@ -153,11 +153,11 @@ public class RangeFinderActivity extends AppCompatActivity
         }
     };
 
-    void start_UI_updater() {
+    private void start_UI_updater() {
         mStatusChecker.run();
     }
 
-    void stop_UI_updater() {
+    private void stop_UI_updater() {
         mHandler.removeCallbacks(mStatusChecker);
     }
 
@@ -230,7 +230,7 @@ public class RangeFinderActivity extends AppCompatActivity
         });
     }
 
-    public void moveIndicatorGlow(int node)
+    private void moveIndicatorGlow(int node)
     {
         RangeIndicator.animate()
                 .x(RangeIndicator.getLeft())

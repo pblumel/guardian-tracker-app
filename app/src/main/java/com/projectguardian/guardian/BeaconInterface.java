@@ -162,7 +162,7 @@ public class BeaconInterface extends Application implements BeaconConsumer, Rang
         return mean;
     }
 
-    void smoothRSSI(ArrayList<Double> v)
+    private void smoothRSSI(ArrayList<Double> v)
     {
         double alpha = 0.75; //smoothing constant
         int count = 1; //used for running mean

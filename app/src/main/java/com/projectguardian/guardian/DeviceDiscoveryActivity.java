@@ -26,7 +26,7 @@ import android.widget.ListView;
 public class DeviceDiscoveryActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener {
 
-    String TAG = "DeviceDiscovery";
+    private String TAG = "DeviceDiscovery";
 
     //Bluetooth Request Codes
     private static final int PERMISSION_REQUEST_BLUETOOTH = 100;
@@ -35,13 +35,13 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
     // Coarse location permission request code
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 101;
 
-    NavigationView navigationView;  // Nav Drawer
+    private NavigationView navigationView;  // Nav Drawer
 
     private int mInterval = 1000;   // 1000 ms UI refresh period
     private Handler mHandler;
 
-    public ArrayAdapter<String> deviceNames;    // ArrayAdapter between ListView and device list
-    public ListView deviceList;
+    private ArrayAdapter<String> deviceNames;    // ArrayAdapter between ListView and device list
+    private ListView deviceList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -220,7 +220,7 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
         }
     }
 
-    public void CheckBluetoothCompatibility() {
+    private void CheckBluetoothCompatibility() {
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBluetoothAdapter == null)  // Device not supported
         {
@@ -250,7 +250,7 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
         }
     }
 
-    public void CheckBTPermissions() {
+    private void CheckBTPermissions() {
         if (checkPermissions(Manifest.permission.BLUETOOTH) && checkPermissions(Manifest.permission.BLUETOOTH_ADMIN)) {
             //All Permissions Granted
             Log.i(TAG, "-------------------------User Granted BlueTooth Permissions");
@@ -265,14 +265,14 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
         }
     }
 
-    public boolean checkPermissions(String per) {
+    private boolean checkPermissions(String per) {
         boolean result = true;
         result = (checkSelfPermission(per) == PackageManager.PERMISSION_GRANTED);
         Log.i(TAG, "----------------------Checking RunTime Permissions: " + result);
         return result;
     }
 
-    public void CheckLocationPermissions()
+    private void CheckLocationPermissions()
     {
         // If location permissions not granted
         if (this.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
@@ -305,7 +305,7 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
         startActivity(rangefinder);
     }
 
-    Runnable mStatusChecker = new Runnable() {
+    private Runnable mStatusChecker = new Runnable() {
         @Override
         public void run() {
             try {
@@ -318,11 +318,11 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
         }
     };
 
-    void start_UI_updater() {
+    private void start_UI_updater() {
         mStatusChecker.run();
     }
 
-    void stop_UI_updater() {
+    private void stop_UI_updater() {
         mHandler.removeCallbacks(mStatusChecker);
     }
 }
