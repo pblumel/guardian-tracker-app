@@ -196,7 +196,7 @@ public class BeaconInterface extends Application implements BeaconConsumer, Rang
     private void removeOutliers( ArrayList<Double> v)
     {
         //make a temp
-        ArrayList<Double> temp = v;
+        ArrayList<Double> temp = new ArrayList<Double>(v);
 
         //get quartile positions
         int  Q1 = temp.size() / 4;
