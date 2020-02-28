@@ -256,8 +256,7 @@ public class DeviceDiscoveryActivity extends AppCompatActivity
     }
 
     private boolean checkPermissions(String per) {
-        boolean result = true;
-        result = (checkSelfPermission(per) == PackageManager.PERMISSION_GRANTED);
+        boolean result = (checkSelfPermission(per) == PackageManager.PERMISSION_GRANTED);
         Log.i(TAG, "----------------------Checking RunTime Permissions: " + result);
         return result;
     }
